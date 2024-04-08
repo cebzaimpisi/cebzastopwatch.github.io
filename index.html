@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .stopwatch {
+      font-size: 36px;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .button1 {
+      background-color: blueviolet;
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      
+    }
+    .button2 {
+      background-color: red;
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      
+    }
+    .Stopwatch{
+        color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+    <h1 class="Stopwatch"> STOPWATCH </h1>
+  <div class="container">
+    <div class="stopwatch">00:00:00</div>
+    <div class="controls">
+      <button class="button1" id="startStopBtn">Start</button>
+      <button class ="button2" id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let timer;
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let isRunning = false;
+
+    function startStopwatch() {
+      if (!isRunning) {
+        timer = setInterval(updateStopwatch, 1000);
+        isRunning = true;
+        document.getElementById('startStopBtn').innerText = 'Stop';
+      } else {
+        clearInterval(timer);
+        isRunning = false;
+        document.getElementById('startStopBtn').innerText = 'Start';
+      }
+    }
+
+    function updateStopwatch() {
+      seconds++;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      const formattedTime = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+      document.querySelector('.stopwatch').innerText = formattedTime;
+    }
+
+    function resetStopwatch() {
+      clearInterval(timer);
+      isRunning = false;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      document.querySelector('.stopwatch').innerText = '00:00:00';
+      document.getElementById('startStopBtn').innerText = 'Start';
+    }
+
+    function pad(value) {
+      return value < 10 ? '0' + value : value;
+    }
+
+    document.getElementById('startStopBtn').addEventListener('click', startStopwatch);
+    document.getElementById('resetBtn').addEventListener('click', resetStopwatch);
+  </script>
+</body>
+</html>
